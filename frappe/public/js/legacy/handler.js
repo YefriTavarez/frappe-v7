@@ -2,7 +2,7 @@
 // MIT License. See license.txt
 
 function $c(command, args, callback, error, no_spinner, freeze_msg, btn) {
-	console.warn("This function '$c' has been deprecated and will be removed soon.");
+	//console.warn("This function '$c' has been deprecated and will be removed soon.");
 	return frappe.request.call({
 		type: "POST",
 		args: $.extend(args, {cmd: command}),
@@ -16,7 +16,7 @@ function $c(command, args, callback, error, no_spinner, freeze_msg, btn) {
 
 // For calling an object
 function $c_obj(doc, method, arg, callback, no_spinner, freeze_msg, btn) {
-	console.warn("This function '$c_obj' has been deprecated and will be removed soon.");
+	//console.warn("This function '$c_obj' has been deprecated and will be removed soon.");
 
 	if(arg && typeof arg!='string') arg = JSON.stringify(arg);
 
@@ -44,7 +44,7 @@ function $c_obj(doc, method, arg, callback, no_spinner, freeze_msg, btn) {
 
 // For calling an for output as csv
 function $c_obj_csv(doc, method, arg) {
-	console.warn("This function '$c_obj_csv' has been deprecated and will be removed soon.");
+	//console.warn("This function '$c_obj_csv' has been deprecated and will be removed soon.");
 	// single
 
 	var args = {}
