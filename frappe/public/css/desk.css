@@ -467,6 +467,35 @@ fieldset[disabled] .form-control {
 .form-control input {
   padding: 6px 10px 8px;
 }
+
+input[type="checkbox"] {
+  visibility: hidden;
+  position: relative;
+}
+
+input[type="checkbox"]:before {
+  position: absolute;
+  font-family: 'FontAwesome';
+  content: '\f096';
+  visibility: visible;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 14px;
+  display: inline-block;
+  font-size: 14px;
+  color: #d1d8dd;
+  -webkit-transition: 150ms color;
+  -o-transition: 150ms color;
+  transition: 150ms color;
+}
+
+input[type="checkbox"]:checked:before {
+  content: '\f14a';
+  font-size: 13px;
+  color: #3b99fc;
+}
 .link-field.ui-front {
   z-index: inherit;
 }
