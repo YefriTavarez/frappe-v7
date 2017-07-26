@@ -541,7 +541,9 @@ frappe.ui.form.ControlInt = frappe.ui.form.ControlData.extend({
 					me.validate(document.activeElement.value, function(val) {
 						document.activeElement.value = val;
 					});
-					document.activeElement.select()
+					if(document.activeElement.select){
+						document.activeElement.select();
+					}
 				}, 100);
 				return false;
 			})
