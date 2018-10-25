@@ -39,7 +39,7 @@ def make_boilerplate(dest, app_name):
 
 			if hook_key=="app_name" and hook_val.lower().replace(" ", "_") != hook_val:
 				print "App Name must be all lowercase and without spaces"
-  				hook_val = ""
+				hook_val = ""
 			elif hook_key=="app_title" and not re.match("^(?![\W])[^\d_\s][\w -]+$", hook_val, re.UNICODE):
 				print "App Title should start with a letter and it can only consist of letters, numbers, spaces and underscores"
 				hook_val = ""
@@ -256,15 +256,19 @@ def get_data():
 
 setup_template = """# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
 import re, ast
+
+try: # for pip >= 10
+	from pip._internal.req import parse_requirements
+except ImportError: # for pip <= 9.0.3
+	from pip.req import parse_requirements
 
 # get version from __version__ variable in {app_name}/__init__.py
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
 with open('{app_name}/__init__.py', 'rb') as f:
-    version = str(ast.literal_eval(_version_re.search(
-        f.read().decode('utf-8')).group(1)))
+	version = str(ast.literal_eval(_version_re.search(
+		f.read().decode('utf-8')).group(1)))
 
 requirements = parse_requirements("requirements.txt", session="")
 
