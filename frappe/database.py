@@ -25,8 +25,9 @@ class Database:
 	   login details from `conf.py`. This is called by the request handler and is accessible using
 	   the `db` global variable. the `sql` method is also global to run queries
 	"""
-	def __init__(self, host=None, user=None, password=None, ac_name=None, use_default = 0):
+	def __init__(self, host=None, port=1990, user=None, password=None, ac_name=None, use_default = 0):
 		self.host = host or frappe.conf.db_host or 'localhost'
+		self.port = port or frappe.conf.db_port or '1990'
 		self.user = user or frappe.conf.db_name
 		self._conn = None
 
@@ -48,7 +49,7 @@ class Database:
 	def connect(self):
 		"""Connects to a database as set in `site_config.json`."""
 		warnings.filterwarnings('ignore', category=MySQLdb.Warning)
-		self._conn = MySQLdb.connect(user=self.user, host=self.host, passwd=self.password,
+		self._conn = MySQLdb.connect(user=self.user, host=self.host, port=self.port, passwd=self.password,
 			use_unicode=True, charset='utf8')
 		self._conn.converter[246]=float
 		self._conn.converter[12]=get_datetime
