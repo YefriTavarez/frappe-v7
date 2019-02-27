@@ -280,7 +280,13 @@ def mysql(context):
 	site = get_site(context)
 	frappe.init(site=site)
 	msq = find_executable('mysql')
-	os.execv(msq, [msq, '-u', frappe.conf.db_name, '-p'+frappe.conf.db_password, frappe.conf.db_name, '-h', frappe.conf.db_host or "localhost", "-A"])
+
+	db_name = frappe.conf.db_name
+	db_port = frappe.conf.db_port
+	db_host = frappe.conf.db_host
+	db_password = frappe.conf.db_password
+
+	os.execv(msq, [msq, '-u', db_name, '-p'+db_password, db_name, '-h', db_host or "localhost", "--port="+str(db_port) or "1990", "-A"])
 
 @click.command('console')
 @pass_context
