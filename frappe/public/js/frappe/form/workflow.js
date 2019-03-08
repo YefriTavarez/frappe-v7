@@ -73,6 +73,10 @@ frappe.ui.form.States = Class.extend({
 		}
 
 		$.each(frappe.workflow.get_transitions(this.frm.doctype, state), function(i, d) {
+			if (me.frm.doc.no_workflow) {
+				return ;
+			}
+
 			if(in_list(user_roles, d.allowed)) {
 				added = true;
 				me.frm.page.add_action_item(__(d.action), function() {
@@ -88,8 +92,8 @@ frappe.ui.form.States = Class.extend({
 					var new_docstatus = cint(new_state.doc_status);
 
 
-					if(new_state.update_field) {
-						me.frm.set_value(new_state.update_field, new_state.update_value);
+					if(new_state.update_field && !this.frm.doc.no_workflow) {
+						me.frm.doc[new_state.update_field] = new_state.update_value;
 					}
 
 					// revert state on error
@@ -134,8 +138,8 @@ frappe.ui.form.States = Class.extend({
 
 	set_default_state: function() {
 		var default_state = frappe.workflow.get_default_state(this.frm.doctype, this.frm.doc.docstatus);
-		if(default_state) {
-			this.frm.set_value(this.state_fieldname, default_state);
+		if(default_state && !this.frm.doc.no_workflow) {
+			this.frm.doc[this.state_fieldname] = default_state;
 		}
 	},
 
