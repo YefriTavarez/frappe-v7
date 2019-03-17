@@ -84,6 +84,9 @@ frappe.ui.form.States = Class.extend({
 					// capture current state
 					var doc_before_action = copy_dict(me.frm.doc);
 
+					// trigger before_workflow_action
+					me.frm.trigger("before_workflow_action");
+
 					// set new state
 					var next_state = frappe.workflow.get_next_state(me.frm.doctype,
 							me.frm.doc[me.state_fieldname], action);
@@ -92,7 +95,7 @@ frappe.ui.form.States = Class.extend({
 					var new_docstatus = cint(new_state.doc_status);
 
 
-					if(new_state.update_field && !this.frm.doc.no_workflow) {
+					if(new_state.update_field && !me.frm.doc.no_workflow) {
 						me.frm.doc[new_state.update_field] = new_state.update_value;
 					}
 
@@ -123,6 +126,9 @@ frappe.ui.form.States = Class.extend({
 						return false;
 					}
 
+					// trigger before_workflow_action
+					me.frm.trigger("on_workflow_action");
+
 					return false;
 
 				});
@@ -140,6 +146,7 @@ frappe.ui.form.States = Class.extend({
 		var default_state = frappe.workflow.get_default_state(this.frm.doctype, this.frm.doc.docstatus);
 		if(default_state && !this.frm.doc.no_workflow) {
 			this.frm.doc[this.state_fieldname] = default_state;
+			this.frm.trigger(this.state_fieldname);
 		}
 	},
 
